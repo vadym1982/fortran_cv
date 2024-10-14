@@ -49,49 +49,50 @@ contains
 
     subroutine project_points(points, n, fov, position, angles, width, height, uv)
         !--------------------------------------------------------------------------------------------------------------
-        !! Calculate image coordinates of points in real world using camera parameters: fov, position, angles
+        !! Calculate image coordinates of points using camera parameters: fov, position, angles
         !--------------------------------------------------------------------------------------------------------------
-        real(wp), intent(in)    :: points(:, :)     !! Points uniform coordinates ((x, y, z, 1), ...)
+        real(wp), intent(in)    :: points(:, :)     !! Points real world uniform coordinates ((x, y, z, 1), ...)
         integer, intent(in)     :: n                !! Number of points
         real(wp), intent(in)    :: fov              !! Camera horizontal field of view in radians
         real(wp), intent(in)    :: position(3)      !! Camera position in Real World coordinate system (x, y, z)
-        real(wp), intent(in)    :: angles(3)        !! Camera Tait Vryan angles (pitch, roll, yaw)
+        real(wp), intent(in)    :: angles(3)        !! Camera Tait Bryan angles (pitch, roll, yaw)
         real(wp), intent(in)    :: width, height    !! Width and height of the image in pixels
         real(wp), intent(out)   :: uv(:, :)         !! Resulting points' frame coordinates ((u, v), ...)
         !--------------------------------------------------------------------------------------------------------------
         integer :: i
         real(wp) :: rt(3, 4), r0(3, 3), r1(3, 3), r2(3, 3), r3(3, 3), p(3), c, s, a, cx, cy, focal
 
-        cx = 0.5_wp * width
-        cy = 0.5_wp * height
-        r0 = reshape([0.0_wp, 0.0_wp, 1.0_wp, 1.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 1.0_wp, 0.0_wp], [3, 3])
+        r0 = reshape([0.0_wp, 0.0_wp, 1.0_wp,   1.0_wp, 0.0_wp, 0.0_wp,   0.0_wp, 1.0_wp, 0.0_wp], [3, 3])
 
         c = cos(-angles(3))
         s = sin(-angles(3))
-        r1(1, 1) = c;      r1(1, 2) = 0.0_wp; r1(1, 3) = s
-        r1(2, 1) = 0.0_wp; r1(2, 2) = 1.0_wp; r1(2, 3) = 0.0_wp
-        r1(3, 1) = -s;     r1(3, 2) = 0.0_wp; r1(3, 3) = c
+        r1(1, 1) = c;       r1(1, 2) = 0.0_wp;  r1(1, 3) = s
+        r1(2, 1) = 0.0_wp;  r1(2, 2) = 1.0_wp;  r1(2, 3) = 0.0_wp
+        r1(3, 1) = -s;      r1(3, 2) = 0.0_wp;  r1(3, 3) = c
 
         c = cos(angles(1))
         s = sin(angles(1))
-        r2(1, 1) = 1.0_wp; r2(1, 2) = 0.0_wp; r2(1, 3) = 0.0_wp
-        r2(2, 1) = 0.0_wp; r2(2, 2) = c;      r2(2, 3) = -s
-        r2(3, 1) = 0.0_wp; r2(3, 2) = s;      r2(3, 3) = c
+        r2(1, 1) = 1.0_wp;  r2(1, 2) = 0.0_wp;  r2(1, 3) = 0.0_wp
+        r2(2, 1) = 0.0_wp;  r2(2, 2) = c;       r2(2, 3) = -s
+        r2(3, 1) = 0.0_wp;  r2(3, 2) = s;       r2(3, 3) = c
 
         a = angles(2) - pi
         c = cos(a)
         s = sin(a)
-        r3(1, 1) = c;      r3(1, 2) = -s;     r3(1, 3) = 0.0_wp
-        r3(2, 1) = s;      r3(2, 2) = c;      r3(2, 3) = 0.0_wp
-        r3(3, 1) = 0.0_wp; r3(3, 2) = 0.0_wp; r3(3, 3) = 1.0_wp
+        r3(1, 1) = c;       r3(1, 2) = -s;      r3(1, 3) = 0.0_wp
+        r3(2, 1) = s;       r3(2, 2) = c;       r3(2, 3) = 0.0_wp
+        r3(3, 1) = 0.0_wp;  r3(3, 2) = 0.0_wp;  r3(3, 3) = 1.0_wp
 
         r3 = matmul(r3, r2)
         r3 = matmul(r3, r1)
         r3 = matmul(r3, r0)
+
         rt(:, 1: 3) = r3
         rt(:, 4) = matmul(-r3, position)
 
         focal = width / tan(fov / 2.0_wp) / 2.0_wp
+        cx = 0.5_wp * width
+        cy = 0.5_wp * height
 
         do i = 1, n
             p = matmul(rt, points(i, :))

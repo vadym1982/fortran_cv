@@ -1,5 +1,5 @@
 module calibration
-    use env, only: wp, pi, deg
+    use env
     use fortran_cv
     use differential_evolution
     use particle_swarm
