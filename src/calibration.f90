@@ -60,8 +60,9 @@ contains
                 real(wp) :: y
 
                 call project_points(points, size(points, dim=1), x(1), x(2: 4), x(5: 7), width, height, puv)
-                y = sum(atan(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2) / width * 10.0_wp))
-!                y = sum(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2))
+!                y = sum(atan(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2) / width * 10.0_wp))
+                y = sum(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2))
+!                y = sum(log(1.0_wp + ((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2) / 30.0_wp ** 2))
             end function obj
 
     end subroutine calibrate_camera
