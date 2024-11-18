@@ -4,6 +4,7 @@ module calibration
     use differential_evolution
     use particle_swarm
     use conjugate_gradient
+    use simulated_annealing
     use interfaces
 
     implicit none
@@ -43,8 +44,8 @@ contains
         points(:, 4) = 1.0_wp
 
         ! Solving optimizatiom problem
-        solver = de_solver(population=320)
-        call solver%optimize(obj, lower, upper, 1000, solution)
+        solver = de_solver(population=640)
+        call solver%optimize(obj, lower, upper, 1500, solution)
 
         ! Calibration results
         fov = solution%x(1)
@@ -60,9 +61,10 @@ contains
                 real(wp) :: y
 
                 call project_points(points, size(points, dim=1), x(1), x(2: 4), x(5: 7), width, height, puv)
-!                y = sum(atan(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2) / width * 10.0_wp))
-                y = sum(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2))
+                y = sum(atan(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2) / width * 15.0_wp))
+!                y = sum(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2))
 !                y = sum(log(1.0_wp + ((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2) / 30.0_wp ** 2))
+!                y = sum(min(sqrt((uv(:, 1) - puv(:, 1)) ** 2 + (uv(:, 2) - puv(:, 2)) ** 2), 50.0_wp))
             end function obj
 
     end subroutine calibrate_camera
