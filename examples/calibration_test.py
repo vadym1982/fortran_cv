@@ -1,18 +1,15 @@
-"""
-f2py -c --f90flags='-fopenmp -O3 -ffast-math -I//home/vadym/projects/optimization/src' calibration.pyf calibration.f90  env.f90 fortran_cv.f90 /home/vadym/projects/optimization/src/optimization.a
-"""
 import os
 from glob import glob
 from time import time
 
 import numpy as np
-from src.calibration import calibration
-from src.fortran_cv import fortran_cv
+from camcal.calibration import calibration
+from camcal.fortran_cv import fortran_cv
 import cv2
 
 deg = np.pi / 180
-images = glob(f"/home/vadym/projects/fortran_cv/test_data/*.png")
-court_points = np.loadtxt("/home/vadym/court_points.txt")
+images = glob(f'{os.path.dirname(os.path.abspath(__file__))}/test_data/*.png')
+court_points = np.loadtxt(f'{os.path.dirname(os.path.abspath(__file__))}/test_data/court_points.txt')
 lower = np.array([15 * deg, -100.0, -100.0, -50.0, -5 * deg, 150 * deg, 0 * deg])
 upper = np.array([120 * deg, 100.0, 100.0, 50, np.pi / 2, 220 * deg, 360 * deg])
 
