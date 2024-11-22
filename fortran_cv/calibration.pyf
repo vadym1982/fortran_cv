@@ -1,0 +1,30 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module calibration ! in
+    interface  ! in :tools
+        module calibration ! in :tools:calibration.f90
+            use env, only: wp
+            use fortran_cv
+            subroutine calibrate_camera(xyz,uv,weights,width,height,lower,upper,loss,fov,position,angles,k1,residual) ! in :tools:calibration.f90:calibration
+                real(kind=8) dimension(:,:),intent(in) :: xyz
+                real(kind=8) dimension(:,:),intent(in) :: uv
+                real(kind=8) dimension(:,:),intent(in) :: weights
+                real(kind=8) intent(in) :: width
+                real(kind=8) intent(in) :: height
+                real(kind=8) dimension(8),intent(in) :: lower
+                real(kind=8) dimension(8),intent(in) :: upper
+                integer intent(in) :: loss
+                real(kind=8) intent(out) :: fov
+                real(kind=8) dimension(3),intent(out) :: position
+                real(kind=8) dimension(3),intent(out) :: angles
+                real(kind=8) intent(out) :: k1
+                real(kind=8) intent(out) :: residual
+            end subroutine calibrate_camera
+        end module calibration
+    end interface
+end python module tools
+
+! This file was auto-generated with f2py (version:1.23.1).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e

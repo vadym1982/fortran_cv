@@ -2,3 +2,9 @@
 build
 *data/
 *.so
+*.o
+*.mod
+*.a
+*.zip
+*.tar.gz
+*.out
