@@ -4,7 +4,6 @@ module calibration
     use differential_evolution
     use particle_swarm
     use conjugate_gradient
-    use simulated_annealing
     use interfaces
 
     implicit none

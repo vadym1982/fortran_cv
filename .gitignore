@@ -8,3 +8,4 @@ build
 *.zip
 *.tar.gz
 *.out
+*env/

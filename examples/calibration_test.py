@@ -3,8 +3,8 @@ from glob import glob
 from time import time
 
 import numpy as np
-from camcal.calibration import calibration
-from camcal.fortran_cv import fortran_cv
+from fortrancv.calibration import calibration
+from fortrancv.fortran_cv import fortran_cv
 import cv2
 
 deg = np.pi / 180
