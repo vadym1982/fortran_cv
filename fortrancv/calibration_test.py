@@ -1,13 +1,13 @@
 """
-f2py -c --f90flags='-fopenmp -O3 -ffast-math -I//home/vadym/projects/optimization/fortran_cv' calibration.pyf calibration.f90  env.f90 fortran_cv.f90 /home/vadym/projects/optimization/fortran_cv/optimization.a
+f2py -c --f90flags='-fopenmp -O3 -ffast-math -I//home/vadym/projects/optimization/fortrancv' calibration.pyf calibration.f90  env.f90 fortrancv.f90 /home/vadym/projects/optimization/fortrancv/optimization.a
 """
 import os
 from glob import glob
 from time import time
 
 import numpy as np
-from fortran_cv.calibration import calibration
-from fortran_cv.fortran_cv import fortran_cv
+from fortrancv.calibration import calibration
+from fortrancv.fortran_cv import fortran_cv
 import cv2
 
 deg = np.pi / 180

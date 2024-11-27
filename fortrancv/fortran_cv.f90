@@ -5,6 +5,7 @@ module fortran_cv
 
 contains
 
+
     subroutine rodrigues(r_vec, r_mat)
         !--------------------------------------------------------------------------------------------------------------
         !! Convert rotation vector `r_vec` to rotation matrix `r_mat`
@@ -105,5 +106,25 @@ contains
             uv(i, 2) = focal * y * dist + cy
         end do
     end subroutine project_points
+
+
+    subroutine convolve2d(mat, kernel, res)
+        !--------------------------------------------------------------------------------------------------------------
+        !!
+        !--------------------------------------------------------------------------------------------------------------
+        real(wp), intent(in)    :: mat(:, :)
+        real(wp), intent(in)    :: kernel(:, :)
+        real(wp), intent(out)   :: res(:, :)
+        !--------------------------------------------------------------------------------------------------------------
+        integer :: cx, cy, kw, kh, mw, mh
+
+        mw = size(mat, dim=2)
+        mh = size(mat, dim=1)
+        kw = size(kernel, dim=2)
+        kh = size(kernel, dim=1)
+
+
+
+    end subroutine convolve2d
 
 end module fortran_cv

@@ -11,7 +11,7 @@ and you've performed that repository's README steps successfully.
 
 ```bash
 mkdir build && cd build
-gfortran -c ../fortran_cv/env.f90 ../fortran_cv/fortran_cv.f90
+gfortran -c ../fortrancv/env.f90 ../fortrancv/fortrancv.f90
 ```
 
 Set **your path** to *optimization* build directory without trailing slash as in the example below
@@ -22,15 +22,15 @@ export OPTIMIZATION_BUILD_FILES_FULL_PATH=/home/vadym/projects/optimization/buil
 The next couple of f2py commands will build .so files for us
 
 ```bash
-f2py -c ../fortran_cv/fortran_cv.pyf ../fortran_cv/env.f90 ../fortran_cv/fortran_cv.f90
+f2py -c ../fortrancv/fortrancv.pyf ../fortrancv/env.f90 ../fortrancv/fortrancv.f90
 
-f2py -c --f90flags="-fopenmp -O3 -ffast-math -I$OPTIMIZATION_BUILD_FILES_FULL_PATH" ../fortran_cv/calibration.pyf \
-../fortran_cv/calibration.f90 $OPTIMIZATION_BUILD_FILES_FULL_PATH/optimization.a
+f2py -c --f90flags="-fopenmp -O3 -ffast-math -I$OPTIMIZATION_BUILD_FILES_FULL_PATH" ../fortrancv/calibration.pyf \
+../fortrancv/calibration.f90 $OPTIMIZATION_BUILD_FILES_FULL_PATH/optimization.a
 ```
 
 Place your dlls to the right place and tide everything up
 ```bash
-mv *.so ../fortran_cv
+mv *.so ../fortrancv
 
 cd ../ && rm -rf build
 ```
