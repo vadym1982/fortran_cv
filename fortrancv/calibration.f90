@@ -41,7 +41,7 @@ contains
         real(wp), intent(out)   :: fov                  !! Camera horizontal field of view in radians
         real(wp), intent(out)   :: position(3)          !! Camera position in RW CS
         real(wp), intent(out)   :: angles(3)            !! Camera Tait Bryan angles (pitch, roll, yaw)
-        real(wp), intent(out)    :: k1                   !! Radial distortion coefficient
+        real(wp), intent(out)   :: k1                   !! Radial distortion coefficient
         real(wp), intent(out)   :: residual
         !--------------------------------------------------------------------------------------------------------------
         real(wp), allocatable :: points(:, :)

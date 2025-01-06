@@ -1,0 +1,35 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module iso_lines ! in 
+    interface  ! in :iso_lines
+        module iso_lines ! in :iso_lines:iso_lines.f90
+            subroutine get_iso_lines(heatmap,value,max_cnt,cnt,ends,lines,h_max,h_mean) ! in :iso_lines:iso_lines.f90:iso_lines
+                real(kind=8) dimension(:,:),intent(in) :: heatmap
+                real(kind=8) intent(in) :: value
+                integer intent(in) :: max_cnt
+                integer intent(out) :: cnt
+                integer dimension(max_cnt/4),intent(out) :: ends
+                real(kind=8) dimension(max_cnt,2),intent(out) :: lines
+                real(kind=8) dimension(max_cnt/4), intent(out) :: h_max
+                real(kind=8) dimension(max_cnt/4), intent(out) :: h_mean
+            end subroutine get_iso_lines
+            subroutine contour_prop(points,perimeter,area,x0,y0,Ix0,Iy0,Ixy0,phi,Imax,Imin) ! in :iso_lines:iso_lines.f90:iso_lines
+                real(kind=8) dimension(:,:), intent(in) :: points
+                real(kind=8) intent(out) :: perimeter
+                real(kind=8) intent(out) :: area
+                real(kind=8) intent(out) :: x0
+                real(kind=8) intent(out) :: y0
+                real(kind=8) intent(out) :: Ix0
+                real(kind=8) intent(out) :: Iy0
+                real(kind=8) intent(out) :: Ixy0
+                real(kind=8) intent(out) :: phi
+                real(kind=8) intent(out) :: Imax
+                real(kind=8) intent(out) :: Imin
+            end subroutine contour_prop
+        end module iso_lines
+    end interface
+end python module iso_lines
+
+! This file was auto-generated with f2py (version:1.21.3).
+! See http://cens.ioc.ee/projects/f2py2e/
