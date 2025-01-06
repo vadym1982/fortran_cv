@@ -3,8 +3,8 @@ from glob import glob
 from time import time
 
 import numpy as np
-from fortrancv.calibration import calibration
-from fortrancv.fortran_cv import fortran_cv
+import calibration
+import fortran_cv
 import cv2
 
 deg = np.pi / 180
@@ -25,6 +25,7 @@ for img_path in images:
     fov, position, angles, res = calibration.calibrate_camera(
         court_points[mask],
         frame_points[mask],
+        np.ones(np.count_nonzero(mask)),
         width,
         height,
         lower,
