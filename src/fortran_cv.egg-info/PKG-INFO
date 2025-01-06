@@ -1,7 +1,24 @@
+Metadata-Version: 2.1
+Name: fortran_cv
+Version: 0.1.0
+Summary: Fortran-based calibration tools.
+Home-page: https://github.com/vadym1982/fortran_cv
+Author: Vadym Stavychenko
+Author-email: vadym.stavychenko@gmail.com
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Fortran
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+
 ## Build
 
 ### Requirements
-- Python 3.10 !
+- Python 3.12-dev
 - ninja, meson, and ?python3.12-distutils PPA packages (sudo apt install meson ninja)
 - PyPi packages from requirements.txt (pip install -r requirements.txt)
 
