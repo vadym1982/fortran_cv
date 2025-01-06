@@ -81,6 +81,8 @@ class BuildFortranExtensions(Command):
                 "f2py",
                 "-c",
                 f"--f90flags=-fopenmp -O3 -ffast-math -I{os.getcwd()}/build/optimization/build",
+                f"{os.getcwd()}/src/fortran_cv/fortran_cv.f90",
+                f"{os.getcwd()}/src/fortran_cv/env.f90",
                 f"{os.getcwd()}/src/fortran_cv/calibration.pyf",
                 f"{os.getcwd()}/src/fortran_cv/calibration.f90",
                 f"{os.getcwd()}/build/optimization/build/optimization.a",

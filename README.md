@@ -25,9 +25,10 @@ The next couple of f2py commands will build .so files for us
 #after running command below you'll get fortran_cv.cpython-<...>.so file
 f2py -c ../src/fortran_cv/fortran_cv.pyf ../src/fortran_cv/env.f90 ../src/fortran_cv/fortran_cv.f90
 
+f2py -c --f90flags="-I/home/vadym/projects/optimization/src" calibration.pyf calibration.f90 fortran_cv.f90 env.f90 /home/vadym/projects/optimization/src/optimization.a
 #after running this command calibration.cpython-<...>.so file is created
 f2py -c --f90flags="-fopenmp -O3 -ffast-math -I$OPTIMIZATION_BUILD_FILES_FULL_PATH" ../src/fortran_cv/calibration.pyf \
-../src/fortran_cv/calibration.f90 $OPTIMIZATION_BUILD_FILES_FULL_PATH/optimization.a
+../src/fortran_cv/fortran_cv.f90 ../src/fortran_cv/env.f90 ../src/fortran_cv/calibration.f90 $OPTIMIZATION_BUILD_FILES_FULL_PATH/optimization.a
 ```
 
 Place your dlls to the right place and tide everything up
