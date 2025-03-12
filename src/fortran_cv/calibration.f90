@@ -3,7 +3,6 @@ module calibration
     use fortran_cv
     use differential_evolution
     use particle_swarm
-    use conjugate_gradient
     use interfaces
 
     implicit none
@@ -21,8 +20,8 @@ module calibration
 
 contains
 
-    subroutine calibrate_camera(xyz, uv, weights, width, height, lower, upper, loss, fov, position, angles, k1, &
-            residual)
+    subroutine calibrate_camera(xyz, uv, weights, width, height, lower, upper, loss, random_state, fov, position, &
+            angles, k1, residual)
         !--------------------------------------------------------------------------------------------------------------
         !! Calibrate camera using Differential Evolution optimization algorithm.
         !! It is assumed that camera has no lens distortion and that optical center is at the center of the frame.
@@ -37,6 +36,7 @@ contains
         real(wp), intent(in)    :: lower(8)             !! Lower bounds for fov, x, y, z, pitch, roll, yaw
         real(wp), intent(in)    :: upper(8)             !! Upper bounds for fov, x, y, z, pitch, roll, yaw
         integer, intent(in)     :: loss                 !! Loss function index
+        integer, intent(in)     :: random_state         !! Random seed for random number generator
         !--------------------------------------------------------------------------------------------------------------
         real(wp), intent(out)   :: fov                  !! Camera horizontal field of view in radians
         real(wp), intent(out)   :: position(3)          !! Camera position in RW CS
@@ -60,7 +60,7 @@ contains
         points(:, 4) = 1.0_wp
 
         ! Solving optimizatiom problem
-        solver = de_solver(population=320)
+        solver = de_solver(population=320, random_state=random_state)
 
         select case (loss)
             case (LOSS_EQCLIDEAN)

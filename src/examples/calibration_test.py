@@ -3,8 +3,8 @@ from glob import glob
 from time import time
 
 import numpy as np
-from fortrancv.calibration import calibration
-from fortrancv.fortran_cv import fortran_cv
+from src.fortran_cv.calibration import calibration
+from src.fortran_cv.fortran_cv import fortran_cv
 import cv2
 
 deg = np.pi / 180
@@ -30,6 +30,7 @@ for img_path in images:
         height,
         lower,
         upper,
+        2,
         2
     )
 
