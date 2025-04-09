@@ -6,7 +6,7 @@ python module calibration ! in
         module calibration ! in :tools:calibration.f90
             use env, only: wp
             use fortran_cv
-            subroutine calibrate_camera(xyz,uv,weights,width,height,lower,upper,loss,fov,position,angles,k1,residual) ! in :tools:calibration.f90:calibration
+            subroutine calibrate_camera(xyz,uv,weights,width,height,lower,upper,loss,random_state,fov,position,angles,k1,residual) ! in :tools:calibration.f90:calibration
                 real(kind=8) dimension(:,:),intent(in) :: xyz
                 real(kind=8) dimension(:,:),intent(in) :: uv
                 real(kind=8) dimension(:,:),intent(in) :: weights
@@ -15,6 +15,7 @@ python module calibration ! in
                 real(kind=8) dimension(8),intent(in) :: lower
                 real(kind=8) dimension(8),intent(in) :: upper
                 integer intent(in) :: loss
+                integer intent(in), optional :: random_state
                 real(kind=8) intent(out) :: fov
                 real(kind=8) dimension(3),intent(out) :: position
                 real(kind=8) dimension(3),intent(out) :: angles

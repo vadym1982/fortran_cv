@@ -21,31 +21,32 @@ module calibration
 
 contains
 
-    subroutine calibrate_camera(xyz, uv, weights, width, height, lower, upper, loss, fov, position, angles, k1, &
-            residual)
+    subroutine calibrate_camera(xyz, uv, weights, width, height, lower, upper, loss, random_state, fov, position, &
+        angles, k1, residual)
         !--------------------------------------------------------------------------------------------------------------
         !! Calibrate camera using Differential Evolution optimization algorithm.
         !! It is assumed that camera has no lens distortion and that optical center is at the center of the frame.
         !--------------------------------------------------------------------------------------------------------------
-        real(wp), intent(in)    :: xyz(:, :)            !! Points coordinates in real world coordinate system (RW CS)
-                                                        !! ((x, y, z), ...)
-        real(wp), intent(in)    :: uv(:, :)             !! Points coordinates in image coordinate system in pixels
-                                                        !! ((u, v), ...)
-        real(wp), intent(in)    :: weights(:, :)        !! Weights factors for points deviation for u and v coordinate
-                                                        !! as [[wx, wy], ...]
-        real(wp), intent(in)    :: width, height        !! Width and height of the frame pixels
-        real(wp), intent(in)    :: lower(8)             !! Lower bounds for fov, x, y, z, pitch, roll, yaw
-        real(wp), intent(in)    :: upper(8)             !! Upper bounds for fov, x, y, z, pitch, roll, yaw
-        integer, intent(in)     :: loss                 !! Loss function index
+        real(wp), intent(in)    :: xyz(:, :)                !! Points coordinates in real world coordinate system (RW CS)
+                                                            !! ((x, y, z), ...)
+        real(wp), intent(in)    :: uv(:, :)                 !! Points coordinates in image coordinate system in pixels
+                                                            !! ((u, v), ...)
+        real(wp), intent(in)    :: weights(:, :)            !! Weights factors for points deviation for u and v coordinate
+                                                            !! as [[wx, wy], ...]
+        real(wp), intent(in)    :: width, height            !! Width and height of the frame pixels
+        real(wp), intent(in)    :: lower(8)                 !! Lower bounds for fov, x, y, z, pitch, roll, yaw
+        real(wp), intent(in)    :: upper(8)                 !! Upper bounds for fov, x, y, z, pitch, roll, yaw
+        integer, intent(in)     :: loss                     !! Loss function index
+        integer, intent(in), optional :: random_state       !! Random seed for random number generator
         !--------------------------------------------------------------------------------------------------------------
-        real(wp), intent(out)   :: fov                  !! Camera horizontal field of view in radians
-        real(wp), intent(out)   :: position(3)          !! Camera position in RW CS
-        real(wp), intent(out)   :: angles(3)            !! Camera Tait Bryan angles (pitch, roll, yaw)
-        real(wp), intent(out)   :: k1                   !! Radial distortion coefficient
+        real(wp), intent(out)   :: fov                      !! Camera horizontal field of view in radians
+        real(wp), intent(out)   :: position(3)              !! Camera position in RW CS
+        real(wp), intent(out)   :: angles(3)                !! Camera Tait Bryan angles (pitch, roll, yaw)
+        real(wp), intent(out)   :: k1                       !! Radial distortion coefficient
         real(wp), intent(out)   :: residual
         !--------------------------------------------------------------------------------------------------------------
         real(wp), allocatable :: points(:, :)
-        integer :: n
+        integer :: n, random_state_current
         real(wp), allocatable :: puv(:, :)
         real(wp) :: x_opt(7)
         type (de_solver) :: solver
@@ -59,8 +60,14 @@ contains
         points(:, 1: 3) = xyz
         points(:, 4) = 1.0_wp
 
+        if (.not. present(random_state)) then
+            random_state_current = 123
+        else
+            random_state_current = random_state
+        end if
+
         ! Solving optimizatiom problem
-        solver = de_solver(population=320)
+        solver = de_solver(population=320, random_state=random_state_current)
 
         select case (loss)
             case (LOSS_EQCLIDEAN)
